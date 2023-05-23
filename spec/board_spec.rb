@@ -1,0 +1,25 @@
+require_relative '../lib/board.rb'
+
+RSpec.describe Board do
+  subject(:board) { described_class.new }
+
+  describe '#drop_piece' do
+    context "when the board is not full" do
+      let(:column_index) { 0 }
+      let(:row_index) { 0 }
+
+      before do
+        allow(board).to receive(:full?).and_return(false)
+      end
+
+      it "drops the given piece in the designated column" do
+        board.drop_piece(Board::RED, column_index)
+        column_zero = board.instance_variable_get(:@columns)[column_index]
+        expect(column_zero[row_index]).to eq(Board::RED)
+      end
+    end
+
+    context "when the board is full" do
+    end
+  end
+end
