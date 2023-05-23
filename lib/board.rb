@@ -7,14 +7,16 @@ class Board
   end
 
   def drop_piece(color, column_index)
-    if full?
-      # TO-DO
-      puts "RAISE CUSTOM ERROR HERE"
-    else
-      @columns[column_index] << color
-    end
+    raise BoardFullError if full?
+    @columns[column_index] << color
   end
 
   def full?
+  end
+
+  class BoardFullError < StandardError
+    def message
+      "Board is full."
+    end
   end
 end

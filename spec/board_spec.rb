@@ -4,10 +4,10 @@ RSpec.describe Board do
   subject(:board) { described_class.new }
 
   describe '#drop_piece' do
-    context "when the board is not full" do
-      let(:column_index) { 0 }
-      let(:row_index) { 0 }
+    let(:column_index) { 0 }
+    let(:row_index) { 0 }
 
+    context "when the board is not full" do
       before do
         allow(board).to receive(:full?).and_return(false)
       end
@@ -20,6 +20,13 @@ RSpec.describe Board do
     end
 
     context "when the board is full" do
+      before do
+        allow(board).to receive(:full?).and_return(true)
+      end
+
+      it "raises the BoardFullError" do
+        expect { board.drop_piece(Board::RED, column_index) }.to raise_error(Board::BoardFullError)
+      end
     end
   end
 end
