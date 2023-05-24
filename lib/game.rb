@@ -4,13 +4,21 @@ require './lib/board'
 class Game
   include BoardSetting
 
-  DIRECTIONS = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
-
   def initialize(board = Board.new)
     @board = board
   end
 
-  def check_direction(x, y, direction, marker = @board.at(x, y))
+  def check_all_directions(x, y)
+    DIRECTIONS.each do |direction|
+      result = check_direction(x, y, direction)
+      return result if result
+    end
+
+    return nil
+  end
+
+  def check_direction(x, y, direction)
+    marker = @board.at(x, y)
     return nil if marker == Board::EMPTY_SLOT
     count = check_slots(x, y, direction, marker)
     return (count == 4) ? marker : nil

@@ -4,4 +4,5 @@ module BoardSetting
   COLUMN_COUNT = 7
   COLUMN_SIZE = 6
   EMPTY_SLOT = "\u25cb"
+  DIRECTIONS = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 end

@@ -26,7 +26,7 @@ RSpec.describe Game do
         end
 
         it "returns the same color as the starting slot" do
-          result = game.check_direction(0, 0, [0, 1], Board::RED)
+          result = game.check_direction(0, 0, [0, 1])
           expect(result).to eq(Board::RED)
         end
       end
@@ -41,7 +41,7 @@ RSpec.describe Game do
         end
 
         it "returns nil" do
-          result = game.check_direction(0, 0, [0, 1], Board::RED)
+          result = game.check_direction(0, 0, [0, 1])
           expect(result).to be_nil
         end
       end
@@ -56,11 +56,53 @@ RSpec.describe Game do
       end
 
       it "returns nil" do
-        result = game.check_direction(0, 1, [0, -1], Board::RED)
+        result = game.check_direction(0, 1, [0, -1])
         expect(result).to be_nil
       end
     end
   end # #check_direction
+
+  describe '#check_all_directions' do
+    subject(:game) { described_class.new }
+
+    context "when there is no direction with winning color" do
+      before do
+        markers = [nil, nil, nil]
+        allow(game).to receive(:check_direction).and_return(*markers)
+      end
+
+      it "returns nil" do
+        result = game.check_all_directions(0, 0)
+        expect(result).to be_nil
+      end
+    end
+
+    context "when there is at least one direction with winning color" do
+      context "when there is exactly one direction with winning color" do
+        before do
+          markers = [nil, Board::RED, nil]
+          allow(game).to receive(:check_direction).and_return(*markers)
+        end
+        
+        it "returns the marker color of the direction" do
+          result = game.check_all_directions(0, 0)
+          expect(result).to eq(Board::RED)
+        end
+      end
+
+      context "when there is more than one direction with winning color" do
+        before do
+          markers = [nil, Board::RED, Board::BLUE]
+          allow(game).to receive(:check_direction).and_return(*markers)
+        end
+
+        it "returns the marker color of the first such direction" do
+          result = game.check_all_directions(0, 0)
+          expect(result).to eq(Board::RED)
+        end
+      end
+    end
+  end # #check_all_directions
 
   describe '#determine_winner' do
     context "when there is no winner" do
