@@ -61,4 +61,23 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#clear_board' do
+    matcher :have_empty_columns do
+      match do |columns|
+        columns.all? { |column| column.empty? }
+      end
+    end
+
+    before do
+      columns = board.instance_variable_get(:@columns)
+      columns[0] << 'R'
+    end
+
+    it "clears all columns" do
+      board.clear_board
+      columns = board.instance_variable_get(:@columns)
+      expect(columns).to have_empty_columns
+    end
+  end
 end

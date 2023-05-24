@@ -19,6 +19,10 @@ class Board
     @columns[column_index].size == COLUMN_SIZE
   end
 
+  def clear_board
+    @columns.each { |column| column.clear }
+  end
+
   class BoardFullError < StandardError
     def message
       "Board is full."
