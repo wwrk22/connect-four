@@ -29,4 +29,27 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#column_full?' do
+    let(:column_index) { 0 }
+
+    context "when the column is full" do
+      before do
+        columns = board.instance_variable_get(:@columns)
+        Board::COLUMN_SIZE.times { |_| columns[column_index] << Board::RED }
+      end
+
+      it "returns true" do
+        result = board.column_full? column_index
+        expect(result).to eq(true)
+      end
+    end
+
+    context "when the column is not full" do
+      it "returns false" do
+        result = board.column_full? column_index
+        expect(result).to eq(false)
+      end
+    end
+  end
 end
