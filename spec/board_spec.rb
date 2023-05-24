@@ -9,7 +9,7 @@ RSpec.describe Board do
 
     context "when the board is not full" do
       before do
-        allow(board).to receive(:full?).and_return(false)
+        allow(board).to receive(:column_full?).with(column_index).and_return(false)
       end
 
       it "drops the given piece in the designated column" do
@@ -21,7 +21,7 @@ RSpec.describe Board do
 
     context "when the board is full" do
       before do
-        allow(board).to receive(:full?).and_return(true)
+        allow(board).to receive(:column_full?).with(column_index).and_return(true)
       end
 
       it "raises the BoardFullError" do
