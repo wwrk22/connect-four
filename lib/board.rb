@@ -6,8 +6,8 @@ class Board
 
 
   def initialize
-    @columns = Array.new
-    COLUMN_COUNT.times { |_| @columns << Array.new }
+    @columns = []
+    COLUMN_COUNT.times { |_| @columns << [] }
   end
 
   def drop_piece(color, column_index)
@@ -21,6 +21,10 @@ class Board
 
   def clear_board
     @columns.each { |column| column.clear }
+  end
+
+  def display_board
+    
   end
 
   class BoardFullError < StandardError
