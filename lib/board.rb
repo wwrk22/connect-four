@@ -28,8 +28,7 @@ class Board
   def update_display
     @columns.each_with_index do |col, col_index|
       col.each_with_index do |slot, slot_index|
-        display_row_index = (COLUMN_SIZE - 1) - slot_index
-        @display[display_row_index][col_index] = slot
+        update_display_row(slot, slot_index, col_index)
       end
     end
   end
@@ -41,6 +40,11 @@ class Board
   end
 
   private
+
+  def update_display_row(slot, slot_index, col_index)
+    display_row_index = (COLUMN_SIZE - 1) - slot_index
+    @display[display_row_index][col_index] = slot
+  end
 
   def create_display
     6.times do
