@@ -93,19 +93,35 @@ RSpec.describe Board do
     end
   end
 
-#  describe '#update_board' do
-#    context "when a new piece has been dropped into a column" do
-#      it "correctly reflects the change" do
-#        expected_display = []
-#        6.times do
-#          empty_circle = "\u25cb"
-#          empty_row = []
-#          7.times { |_| empty_row << empty_circle }
-#          expected_display << empty_row
-#        end
-#        board_display = board.instance_variable_get(:@board_display)
-#        expect(board_display).to eq(expected_display)
-#      end
-#    end
-#  end
+  describe '#update_display' do
+    context "when no new pieces have been dropped into any columns" do
+      it "does not update the display" do
+        # Create an empty display.
+        empty_display = create_display
+
+        # Update the display, then check.
+        board.update_display
+        display = board.instance_variable_get(:@display)
+        expect(display).to eql(empty_display)
+      end
+    end
+
+    context "when a new piece has been dropped into a column" do
+      it "correctly reflects the change" do
+        # Create a non-empty display that contains a single red piece at the
+        # bottom left corner of the board.
+        non_empty_display = create_display
+        non_empty_display[5][0] = Board::RED
+
+        # Make the columns of the board object reflect the same state.
+        columns = board.instance_variable_get(:@columns)
+        columns[0][0] = Board::RED
+
+        # Update the display, then check.
+        board.update_display
+        display = board.instance_variable_get(:@display)
+        expect(display).to eql(non_empty_display)
+      end
+    end
+  end
 end

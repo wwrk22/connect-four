@@ -25,8 +25,13 @@ class Board
     @columns.each { |column| column.clear }
   end
 
-  def display_board
-    
+  def update_display
+    @columns.each_with_index do |col, col_index|
+      col.each_with_index do |slot, slot_index|
+        display_row_index = (COLUMN_SIZE - 1) - slot_index
+        @display[display_row_index][col_index] = slot
+      end
+    end
   end
 
   class BoardFullError < StandardError
