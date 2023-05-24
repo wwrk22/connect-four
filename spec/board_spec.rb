@@ -3,6 +3,15 @@ require_relative '../lib/board.rb'
 RSpec.describe Board do
   subject(:board) { described_class.new }
 
+  describe '.new' do
+    it "creates an array of seven empty arrays" do
+      columns = board.instance_variable_get(:@columns)
+      empty_board = Array.new
+      Board::COLUMN_COUNT.times { |_| empty_board << Array.new }
+      expect(columns).to eql(empty_board)
+    end
+  end
+
   describe '#drop_piece' do
     let(:column_index) { 0 }
     let(:row_index) { 0 }
