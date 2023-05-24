@@ -18,6 +18,10 @@ class Board
     @columns[column_index].size == COLUMN_SIZE
   end
 
+  def at(x, y)
+    @columns[x][y]
+  end
+
   def clear_board
     @columns.each { |column| column.clear }
   end

@@ -11,19 +11,9 @@ class Game
   end
 
   def check_direction(x, y, direction, marker = @board.at(x, y))
-    return nil unless position_inbounds?(x, y) && marker != Board::EMPTY_SLOT
-    count = 0
-
-    while position_inbounds?(x, y)  do
-      return nil if @board.at(x, y) != marker
-      x += direction[0]
-      y += direction[1]
-      count += 1
-      break if count == 4
-    end
-
-    return marker if count == 4
-    return nil
+    return nil if marker == Board::EMPTY_SLOT
+    count = check_slots(x, y, direction, marker)
+    return (count == 4) ? marker : nil
   end
 
   def determine_winner
@@ -31,6 +21,18 @@ class Game
   end
 
   private
+  
+  def check_slots(x, y, direction, marker)
+    count = 0
+
+    while position_inbounds?(x, y)
+      @board.at(x, y) == marker ? (count += 1) : (return nil)
+      break if count == 4
+      x, y = [x + direction[0], y + direction[1]]
+    end
+
+    return count
+  end
 
   # The x refers to the index of a column in @columns of Board class, and y
   # refers to the index within a column.
