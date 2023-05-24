@@ -3,13 +3,13 @@ class Board
   BLUE = 'B'
   COLUMN_COUNT = 7
   COLUMN_SIZE = 6
+  EMPTY_SLOT = "\u25cb"
 
 
   def initialize
     @columns = []
-    @display = []
-    COLUMN_COUNT.times { |_| @columns << [] }
-    create_display
+    COLUMN_COUNT.times { @columns << [] }
+    @display = Board.create_display
   end
 
   def drop_piece(color, column_index)
@@ -33,6 +33,10 @@ class Board
     end
   end
 
+  def to_s
+    Board.display_to_s(@display)
+  end
+
   class BoardFullError < StandardError
     def message
       "Board is full."
@@ -46,11 +50,22 @@ class Board
     @display[display_row_index][col_index] = slot
   end
 
-  def create_display
-    6.times do
-      empty_row = []
-      7.times { empty_row << "\u25cb" }
-      @display << empty_row
+  class << self
+    def create_display(display = [])
+      COLUMN_SIZE.times { display << Board.create_display_row }
+      return display
+    end
+
+    def create_display_row(empty_row = [])
+      COLUMN_COUNT.times { empty_row << EMPTY_SLOT }
+      return empty_row
+    end
+
+    def display_to_s(display)
+      display.reduce("") do |str, row|
+        str << row.join(" ")
+        str << "\n"
+      end
     end
   end
 end

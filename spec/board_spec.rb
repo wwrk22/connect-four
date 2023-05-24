@@ -12,13 +12,13 @@ RSpec.describe Board do
     it "creates an array of seven empty arrays" do
       columns = board.instance_variable_get(:@columns)
       empty_board = Array.new
-      Board::COLUMN_COUNT.times { |_| empty_board << Array.new }
+      Board::COLUMN_COUNT.times { empty_board << Array.new }
       expect(columns).to eql(empty_board)
     end
 
     it "creates an array of six rows of empty circles" do
       display = board.instance_variable_get(:@display)
-      empty_display = create_display
+      empty_display = Board.create_display
       puts "empty_display"
       expect(display).to eql(empty_display)
     end
@@ -57,7 +57,7 @@ RSpec.describe Board do
     context "when the column is full" do
       before do
         columns = board.instance_variable_get(:@columns)
-        Board::COLUMN_SIZE.times { |_| columns[column_index] << Board::RED }
+        Board::COLUMN_SIZE.times { columns[column_index] << Board::RED }
       end
 
       it "returns true" do
@@ -97,7 +97,7 @@ RSpec.describe Board do
     context "when no new pieces have been dropped into any columns" do
       it "does not update the display" do
         # Create an empty display.
-        empty_display = create_display
+        empty_display = Board.create_display
 
         # Update the display, then check.
         board.update_display
@@ -110,7 +110,7 @@ RSpec.describe Board do
       it "correctly reflects the change" do
         # Create a non-empty display that contains a single red piece at the
         # bottom left corner of the board.
-        non_empty_display = create_display
+        non_empty_display = Board.create_display
         non_empty_display[5][0] = Board::RED
 
         # Make the columns of the board object reflect the same state.
@@ -121,6 +121,28 @@ RSpec.describe Board do
         board.update_display
         display = board.instance_variable_get(:@display)
         expect(display).to eql(non_empty_display)
+      end
+    end
+  end
+
+  describe '#to_s' do
+    context "when board is empty" do
+      it "returns a string representing an empty board" do
+        empty_display = create_test_display
+        expect(board.to_s).to eq(empty_display)
+      end
+    end
+
+    context "when board is not empty" do
+      let(:row_index) { 5 }
+      let(:col_index) { 0 }
+      let(:marker) { Board::BLUE }
+
+      it "returns a string representing a non-empty board" do
+        non_empty_display = create_test_display(row_index, col_index, marker)
+        display = board.instance_variable_get(:@display)
+        display[row_index][col_index] = marker
+        expect(board.to_s).to eq(non_empty_display)
       end
     end
   end
