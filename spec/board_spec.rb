@@ -1,4 +1,9 @@
-require_relative '../lib/board.rb'
+require './lib/board.rb'
+require './spec/support/board_helpers'
+
+RSpec.configure do |cfg|
+  cfg.include BoardHelpers
+end
 
 RSpec.describe Board do
   subject(:board) { described_class.new }
@@ -13,14 +18,8 @@ RSpec.describe Board do
 
     it "creates an array of six rows of empty circles" do
       display = board.instance_variable_get(:@display)
-      empty_display = []
-      Board::COLUMN_SIZE.times do
-        empty_row = []
-        Board::COLUMN_COUNT.times do
-          empty_row << "\u25cb"
-        end
-        empty_display << empty_row
-      end
+      empty_display = create_display
+      puts "empty_display"
       expect(display).to eql(empty_display)
     end
   end
