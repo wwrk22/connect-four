@@ -7,7 +7,9 @@ class Board
 
   def initialize
     @columns = []
+    @display = []
     COLUMN_COUNT.times { |_| @columns << [] }
+    create_display
   end
 
   def drop_piece(color, column_index)
@@ -30,6 +32,16 @@ class Board
   class BoardFullError < StandardError
     def message
       "Board is full."
+    end
+  end
+
+  private
+
+  def create_display
+    6.times do
+      empty_row = []
+      7.times { empty_row << "\u25cb" }
+      @display << empty_row
     end
   end
 end

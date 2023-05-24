@@ -10,6 +10,19 @@ RSpec.describe Board do
       Board::COLUMN_COUNT.times { |_| empty_board << Array.new }
       expect(columns).to eql(empty_board)
     end
+
+    it "creates an array of six rows of empty circles" do
+      display = board.instance_variable_get(:@display)
+      empty_display = []
+      Board::COLUMN_SIZE.times do
+        empty_row = []
+        Board::COLUMN_COUNT.times do
+          empty_row << "\u25cb"
+        end
+        empty_display << empty_row
+      end
+      expect(display).to eql(empty_display)
+    end
   end
 
   describe '#drop_piece' do
@@ -80,4 +93,20 @@ RSpec.describe Board do
       expect(columns).to have_empty_columns
     end
   end
+
+#  describe '#update_board' do
+#    context "when a new piece has been dropped into a column" do
+#      it "correctly reflects the change" do
+#        expected_display = []
+#        6.times do
+#          empty_circle = "\u25cb"
+#          empty_row = []
+#          7.times { |_| empty_row << empty_circle }
+#          expected_display << empty_row
+#        end
+#        board_display = board.instance_variable_get(:@board_display)
+#        expect(board_display).to eq(expected_display)
+#      end
+#    end
+#  end
 end
