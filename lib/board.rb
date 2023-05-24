@@ -1,10 +1,7 @@
-class Board
-  RED = "\e[31m\u25cf\e[0m"
-  BLUE = "\e[34m\u25cf\e[0m"
-  COLUMN_COUNT = 7
-  COLUMN_SIZE = 6
-  EMPTY_SLOT = "\u25cb"
+require './lib/board_setting'
 
+class Board
+  include BoardSetting
 
   def initialize
     @columns = []
@@ -52,12 +49,12 @@ class Board
 
   class << self
     def create_display(display = [])
-      COLUMN_SIZE.times { display << Board.create_display_row }
+      BoardSetting::COLUMN_SIZE.times { display << Board.create_display_row }
       return display
     end
 
     def create_display_row(empty_row = [])
-      COLUMN_COUNT.times { empty_row << EMPTY_SLOT }
+      BoardSetting::COLUMN_COUNT.times { empty_row << BoardSetting::EMPTY_SLOT }
       return empty_row
     end
 
