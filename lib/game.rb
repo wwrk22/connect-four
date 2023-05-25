@@ -26,16 +26,23 @@ class Game
 
   def determine_winner
     0.upto(COLUMN_COUNT - 1) do |x|
-      0.upto(COLUMN_SIZE - 1) do |y|
-        result = check_all_directions(x, y)
-        return result if result
-      end
+      result = check_column(x)
+      return result if result
     end
 
     return nil
   end
 
   private
+
+  def check_column(x)
+    0.upto(COLUMN_SIZE - 1) do |y|
+      result = check_all_directions(x, y)
+      return result if result
+    end
+
+    return nil
+  end
   
   def check_slots(x, y, direction, marker)
     count = 0
