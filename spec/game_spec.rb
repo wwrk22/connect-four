@@ -106,30 +106,46 @@ RSpec.describe Game do
 
   describe '#determine_winner' do
     context "when there is no winner" do
-      context "when the board is full" do
+      subject(:game) { described_class.new }
+
+      before do
+        results = Array.new(Board::COLUMN_COUNT * Board::COLUMN_SIZE, nil)
+        allow(game).to receive(:check_all_directions).and_return(*results)
+      end
+
+      it "returns nil" do
+        winner = game.determine_winner
+        expect(winner).to be_nil
+      end
+    end
+
+    context "when there is a winner" do
+      context "when there is only one winning slot" do
         subject(:game) { described_class.new }
 
-        xit "returns nil" do
+        before do
+          results = [nil, nil, Board::RED]
+          allow(game).to receive(:check_all_directions).and_return(*results)
+        end
+
+        it "returns the marker in the winning slot" do
           winner = game.determine_winner
           expect(winner).to eq(Board::RED)
         end
       end
 
-      context "when the board is not full" do
+      context "when there is more than one winning slot" do
         subject(:game) { described_class.new }
 
-      end
-    end
+        before do
+          results = [nil, nil, Board::BLUE, Board::RED, Board::RED, nil]
+          allow(game).to receive(:check_all_directions).and_return(*results)
+        end
 
-    context "when there is a winner" do
-      context "when the board is full" do
-        subject(:game) { described_class.new }
-
-      end
-
-      context "when the board is not full" do
-        subject(:game) { described_class.new }
-
+        it "returns the marker of the first winning slot found" do
+          winner = game.determine_winner
+          expect(winner).to eq(Board::BLUE)
+        end
       end
     end
   end
