@@ -1,7 +1,7 @@
 require './lib/player'
 
 RSpec.describe Player do
-  describe '#make_move' do
+  describe '#choose_column' do
     context "when player chooses a valid column index" do
       subject(:player) { described_class.new('Foo', Player::RED) }
       let(:valid_col_idx) { 0 }
@@ -11,7 +11,7 @@ RSpec.describe Player do
       end
 
       it "returns the column index" do
-        expect(player.make_move).to eq(valid_col_idx)
+        expect(player.choose_column).to eq(valid_col_idx)
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.describe Player do
       end
 
       it "raises the InvalidColumnIndex error" do
-        expect{ player.make_move }.to raise_error(Player::InvalidColumnIndex)
+        expect{ player.choose_column }.to raise_error(Player::InvalidColumnIndex)
       end
     end
   end
