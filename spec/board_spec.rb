@@ -146,4 +146,27 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#full?' do
+    subject(:board) { described_class.new }
+
+    context "when board is full" do
+      before do
+        columns = board.instance_variable_get(:@columns)
+        columns.each do |column|
+          Board::COLUMN_SIZE.times { column << Board::RED }
+        end
+      end
+
+      it "returns true" do
+        expect(board.full?).to eq(true)
+      end
+    end
+
+    context "when board is not full" do
+      it "returns false" do
+        expect(board.full?).to eq(false)
+      end
+    end
+  end
 end

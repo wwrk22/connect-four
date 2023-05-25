@@ -26,6 +26,11 @@ class Board
     @columns.each { |column| column.clear }
   end
 
+  def full?
+    @columns.each { |column| return false if column.size < COLUMN_SIZE }
+    return true
+  end
+
   def update_display
     @columns.each_with_index do |col, col_index|
       col.each_with_index do |slot, slot_index|
